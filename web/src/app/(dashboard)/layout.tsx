@@ -61,7 +61,7 @@ export default function HomeLayout({
 
       <div className="flex flex-col justify-between lg:flex-row">
         {/* Desktop Sidebar */}
-        <aside className="hidden h-dvh lg:flex flex-col justify-between sticky top-0 p-5 lg:w-72 border-r">
+        <aside className="hidden h-dvh lg:flex flex-col justify-between sticky top-0 p-5 lg:w-72 border-r shadow">
           <ul className="flex flex-col w-full">
             {homeLinks.map((item, idx) => (
               <Link
@@ -90,9 +90,9 @@ export default function HomeLayout({
               <li
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 key={idx}
-                className="text-lg font-medium hover:bg-neutral-200 rounded-full p-2 md:p-3 transition-all duration-300"
+                className="text-lg font-medium hover:bg-neutral-200 rounded-full transition-all duration-300"
               >
-                <Link href={item.link} className="flex gap-2">
+                <Link href={item.link} className="flex gap-2 p-2">
                   {item.icon}
                 </Link>
               </li>

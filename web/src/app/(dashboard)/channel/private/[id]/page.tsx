@@ -2,7 +2,7 @@ import { CommentSection } from "@/components/comments";
 import { Dislike, Like } from "@/components/user-video-action";
 import { VideoPlayer } from "@/components/video-player";
 
-export default function VideoDetails() {
+export default function PrivateVideoDetails() {
   return (
     <div className="p-5 mt-16 lg:mt-0 flex flex-col xl:flex-row gap-5">
       <div className="">

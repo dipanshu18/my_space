@@ -1,6 +1,15 @@
 import Image from "next/image";
 
-export function FeedCard() {
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { MoreVertical } from "lucide-react";
+import Link from "next/link";
+import { DeleteVideo, EditVideo } from "./channel-video-action";
+
+export function FeedCard({ type }: { type: "profile" | "public" | "private" }) {
   return (
     <div className="border rounded-md">
       <Image
@@ -11,8 +20,27 @@ export function FeedCard() {
         quality={100}
         className="aspect-video object-cover"
       />
-      <div className="p-5">
-        <h1 className="text-xl font-bold">Video Title</h1>
+      <div className="p-5 flex items-center justify-between">
+        {type === "profile" || type === "private" ? (
+          <Link
+            href={type === "private" ? "/channel/private/:id" : "/feed/:id"}
+          >
+            <h1 className="text-xl font-bold">Video Title</h1>
+          </Link>
+        ) : (
+          <h1 className="text-xl font-bold">Video Title</h1>
+        )}
+        {(type === "profile" || type === "private") && (
+          <Popover>
+            <PopoverTrigger>
+              <MoreVertical />
+            </PopoverTrigger>
+            <PopoverContent className="grid gap-2 w-fit">
+              <EditVideo />
+              <DeleteVideo />
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
     </div>
   );
