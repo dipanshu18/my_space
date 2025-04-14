@@ -20,16 +20,12 @@ export function UploadVideoForm({ type }: { type: "edit" | "upload" }) {
         <Label>Description</Label>
         <Textarea rows={10} placeholder="enter description" />
       </div>
-      <div className="grid grid-cols-1 gap-3">
-        <Label>Tags</Label>
-        <Input placeholder="enter tags separated by commas (,)" />
-      </div>
 
       <div className="mt-2">
         {type === "upload" ? (
-          <Button className="w-full lg:max-w-xs mx-auto">Upload video</Button>
+          <Button className="w-full mx-auto">Upload video</Button>
         ) : (
-          <Button className="w-full lg:max-w-xs mx-auto">Save changes</Button>
+          <Button className="w-full mx-auto">Save changes</Button>
         )}
       </div>
     </form>

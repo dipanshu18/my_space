@@ -8,7 +8,7 @@ export default function VideoDetails() {
       <div className="">
         <div className="w-full">
           <VideoPlayer
-            src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
+            src={`${process.env.NEXT_PUBLIC_CDN_URL}/3/21/master.m3u8`}
             poster=""
           />
         </div>
