@@ -4,4 +4,4 @@ A no distraction place for creators to upload videos their for channel and make 
 
 ### HLS System Design
 
-![HLS System Design](https://github.com/user-attachments/assets/4928ecb7-17a8-4f76-90fe-338ac1d82695)
+![hls-transcoding](https://github.com/user-attachments/assets/03ffec1e-7d6c-4dca-b421-a3665a54dbbb)
