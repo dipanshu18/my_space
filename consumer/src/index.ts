@@ -2,8 +2,16 @@ import {
   DeleteMessageCommand,
   ReceiveMessageCommand,
 } from "@aws-sdk/client-sqs";
-import { AWS_SQS_URL } from "./constants/env";
+import { RunTaskCommand } from "@aws-sdk/client-ecs";
+
+import {
+  AWS_CDN_URL,
+  AWS_ECS_CLUSTER_NAME,
+  AWS_ECS_TASK_NAME,
+  AWS_SQS_URL,
+} from "./constants/env";
 import { sqs } from "./utils/sqs";
+import { ecs } from "./utils/ecs";
 
 async function pollQueue() {
   console.log("Listening for messages...");
@@ -29,9 +37,50 @@ async function pollQueue() {
             const objectKey = decodeURIComponent(
               s3Record.s3.object.key.replace(/\+/g, " ")
             );
-            console.log("Extracted S3 Object Key:", objectKey.split("/"));
+            const [userId, videoId] = objectKey.split("/");
 
-            // Do something with the objectKey...
+            console.log(
+              "Starting run task with env vars:",
+              userId,
+              videoId,
+              objectKey
+            );
+            // Run ECS task
+            const taskCommand = new RunTaskCommand({
+              cluster: AWS_ECS_CLUSTER_NAME,
+              launchType: "FARGATE",
+              taskDefinition: AWS_ECS_TASK_NAME,
+              count: 1,
+              networkConfiguration: {
+                awsvpcConfiguration: {
+                  assignPublicIp: "ENABLED",
+                  subnets: [
+                    "subnet-04690168017d37e8c",
+                    "subnet-0665898f1df9a0580",
+                    "subnet-023d466f3c36948f8",
+                  ],
+                  securityGroups: ["sg-06cf50f0fb685f086"],
+                },
+              },
+              overrides: {
+                containerOverrides: [
+                  {
+                    name: "transcoder",
+                    environment: [
+                      { name: "USER_ID", value: userId },
+                      { name: "VIDEO_ID", value: videoId },
+                      {
+                        name: "OBJECT_URI",
+                        value: `${AWS_CDN_URL}/${objectKey}`,
+                      },
+                    ],
+                  },
+                ],
+              },
+            });
+
+            await ecs.send(taskCommand);
+            console.log("Run task started");
           }
 
           // Delete the message after processing

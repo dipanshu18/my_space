@@ -8,7 +8,7 @@ export default function VideoDetails() {
       <div className="">
         <div className="w-full">
           <VideoPlayer
-            src={`${process.env.NEXT_PUBLIC_CDN_URL}/3/21/master.m3u8`}
+            src={`${process.env.NEXT_PUBLIC_CDN_URL}/7/17/master.m3u8`}
             poster=""
           />
         </div>
