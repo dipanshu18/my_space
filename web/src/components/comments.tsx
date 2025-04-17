@@ -5,7 +5,6 @@ import { Button } from "./ui/button";
 import { Send } from "lucide-react";
 
 import { UserImageNameCard } from "./user-image-name-card";
-import { Dislike, Like } from "./user-video-action";
 
 export function CommentSection() {
   return (
@@ -35,10 +34,6 @@ export function CommentSection() {
                   perferendis optio dicta ipsa, molestias consectetur iste cum
                   quisquam porro quasi!
                 </p>
-                <div className="space-x-2">
-                  <Like />
-                  <Dislike />
-                </div>
               </div>
             ))}
         </div>

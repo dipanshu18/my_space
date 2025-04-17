@@ -31,7 +31,7 @@ export default function VideoDetails() {
         </div>
       </div>
 
-      <div className="xl:w-4/5">
+      <div className="xl:w-4/5 lg:border-l lg:pl-5">
         <h1 className="text-xl font-bold">Comments</h1>
 
         <CommentSection />

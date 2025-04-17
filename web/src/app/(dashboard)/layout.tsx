@@ -61,7 +61,7 @@ export default function HomeLayout({
 
       <div className="flex flex-col justify-between lg:flex-row">
         {/* Desktop Sidebar */}
-        <aside className="hidden h-dvh lg:flex flex-col justify-between sticky top-0 p-5 lg:w-72 border-r shadow">
+        <aside className="hidden h-dvh lg:flex flex-col justify-between sticky top-0 p-5 lg:w-72 border-r">
           <ul className="flex flex-col w-full">
             {homeLinks.map((item, idx) => (
               <Link

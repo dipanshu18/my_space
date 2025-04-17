@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String       @id @default(cuid())
+  image      String?
+  name       String?
+  email      String       @unique
+  provider   AuthProvider
+  providerId String       @unique
+  videos     Video[]
+  likes      Like[]
+  dislikes   Dislike[]
+  comments   Comment[]
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Video {
+  id          String            @id @default(cuid())
+  title       String
+  description String
+  mediaUrl    String?
+  status      VideoUploadStatus
+  visibility  Visibility        @default(PRIVATE)
+  publisher   User              @relation(references: [id], fields: [publisherId])
+  publisherId String
+  likes       Like[]
+  dislikes    Dislike[]
+  comment     Comment[]
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  @@map("videos")
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  video     Video    @relation(references: [id], fields: [videoId], onDelete: Cascade)
+  videoId   String
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([videoId, userId])
+  @@map("likes")
+}
+
+model Dislike {
+  id        String   @id @default(cuid())
+  video     Video    @relation(references: [id], fields: [videoId], onDelete: Cascade)
+  videoId   String
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([videoId, userId])
+  @@map("dislikes")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  video     Video    @relation(references: [id], fields: [videoId], onDelete: Cascade)
+  videoId   String
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("comments")
+}
+
+enum AuthProvider {
+  GOOGLE
+  GITHUB
+}
+
+enum VideoUploadStatus {
+  UPLOADING
+  PROCESSING
+  PUBLISHED
+}
+
+enum Visibility {
+  PUBLIC
+  PAID
+  PRIVATE
+}
