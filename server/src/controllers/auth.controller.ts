@@ -18,7 +18,7 @@ export async function authWithGoogle(req: Request, res: Response) {
 
   res.cookie("token", token, getTokenCookieOptions());
 
-  res.redirect(`${APP_ORIGIN}/register?token=${token}`);
+  res.redirect(`${APP_ORIGIN}/register`);
 }
 
 export async function authWithGithub(req: Request, res: Response) {
@@ -29,26 +29,23 @@ export async function authWithGithub(req: Request, res: Response) {
     return;
   }
 
-  const accessToken = generateToken(user);
+  const token = generateToken(user);
 
-  res.cookie("accessToken", accessToken, getTokenCookieOptions());
+  res.cookie("token", token, getTokenCookieOptions());
 
-  res.redirect(`${APP_ORIGIN}/register?token=${accessToken}`);
+  res.redirect(`${APP_ORIGIN}/register`);
 }
 
 export async function logoutHandler(req: Request, res: Response) {
-  const accessToken = req.cookies.accessToken as string | undefined;
-  if (!accessToken) {
+  const token = req.cookies.token as string | undefined;
+  if (!token) {
     res.status(UNAUTHORIZED).json({
       message: "Unauthorized",
     });
     return;
   }
 
-  const decoded = jwt.verify(
-    accessToken || "",
-    JWT_ACCESS_SECRET
-  ) as JwtPayload;
+  const decoded = jwt.verify(token || "", JWT_ACCESS_SECRET) as JwtPayload;
 
   if (!decoded) {
     res.status(UNAUTHORIZED).json({
@@ -57,7 +54,7 @@ export async function logoutHandler(req: Request, res: Response) {
     return;
   }
 
-  res.clearCookie("accessToken");
+  res.clearCookie("token");
   res.status(OK).json({ message: "Logout successful" });
   return;
 }

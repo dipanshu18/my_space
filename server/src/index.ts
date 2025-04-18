@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.route";
 import { authenticate } from "./middlewares/auth.middleware";
 import userRoutes from "./routes/user.route";
 import { PORT } from "./constants/env";
+import videoRoutes from "./routes/video.route";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(passport.initialize());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", authenticate, userRoutes);
+app.use("/api/video", authenticate, videoRoutes);
 
 app.listen(PORT, () => {
   console.log("Server started on port:", PORT);

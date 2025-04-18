@@ -1,41 +1,45 @@
-import { CommentSection } from "@/components/comments";
-import { Dislike, Like } from "@/components/user-video-action";
+import { getVideoDetails } from "@/actions/video";
+// import { CommentSection } from "@/components/comments";
+// import { Dislike, Like } from "@/components/user-video-action";
 import { VideoPlayer } from "@/components/video-player";
+import type { IVideo } from "@/types";
 
-export default function PrivateVideoDetails() {
+export default async function PrivateVideoDetails({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  const video = (await getVideoDetails(id)) as IVideo;
+
   return (
     <div className="p-5 mt-16 lg:mt-0 flex flex-col xl:flex-row gap-5">
       <div className="">
         <div className="w-full">
           <VideoPlayer
-            src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
+            src={`${process.env.NEXT_PUBLIC_CDN_URL}/${video.mediaUrl}`}
             poster=""
           />
         </div>
 
         <div className="my-5 space-y-5">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold">Video title</h1>
+            <h1 className="text-xl font-bold">{video.title}</h1>
             <div className="space-x-5">
-              <Like />
-              <Dislike />
+              {/* <Like count={video._count.likes} /> */}
+              {/* <Dislike /> */}
             </div>
           </div>
-          <p className="text-base">
-            Description: Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Expedita quae dignissimos fugit ut illum commodi fuga quia aut
-            ratione magni rem, dolor, doloribus repellat libero voluptatibus
-            praesentium necessitatibus recusandae debitis distinctio iure
-            perspiciatis soluta non. Aspernatur est expedita odit. Nulla.
-          </p>
+          <p className="text-base">{video.description}</p>
         </div>
       </div>
 
-      <div className="xl:w-4/5">
+      {/* <div className="xl:w-4/5">
         <h1 className="text-xl font-bold">Comments</h1>
 
         <CommentSection />
-      </div>
+      </div> */}
     </div>
   );
 }

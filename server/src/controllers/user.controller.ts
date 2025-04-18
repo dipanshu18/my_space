@@ -10,6 +10,13 @@ export async function getUserProfile(req: Request, res: Response) {
       omit: {
         providerId: true,
       },
+      include: {
+        videos: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
     });
 
     if (!user) {

@@ -45,6 +45,8 @@ async function pollQueue() {
               videoId,
               objectKey
             );
+
+            console.log(`${AWS_CDN_URL}/${objectKey}`);
             // Run ECS task
             const taskCommand = new RunTaskCommand({
               cluster: AWS_ECS_CLUSTER_NAME,

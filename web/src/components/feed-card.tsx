@@ -8,8 +8,15 @@ import {
 import { MoreVertical } from "lucide-react";
 import Link from "next/link";
 import { DeleteVideo, EditVideo } from "./channel-video-action";
+import type { IVideo } from "@/types";
 
-export function FeedCard({ type }: { type: "profile" | "public" | "private" }) {
+export function FeedCard({
+  type,
+  videoDetails,
+}: {
+  type: "profile" | "public" | "private";
+  videoDetails: IVideo;
+}) {
   return (
     <div className="border rounded-md">
       <Image
@@ -23,12 +30,16 @@ export function FeedCard({ type }: { type: "profile" | "public" | "private" }) {
       <div className="p-5 flex items-center justify-between">
         {type === "profile" || type === "private" ? (
           <Link
-            href={type === "private" ? "/channel/private/:id" : "/feed/:id"}
+            href={
+              type === "private"
+                ? `/channel/private/${videoDetails.id}`
+                : `/feed/${videoDetails.id}`
+            }
           >
-            <h1 className="text-xl font-bold">Video Title</h1>
+            <h1 className="text-xl font-bold">{videoDetails.title}</h1>
           </Link>
         ) : (
-          <h1 className="text-xl font-bold">Video Title</h1>
+          <h1 className="text-xl font-bold">{videoDetails.title}</h1>
         )}
         {(type === "profile" || type === "private") && (
           <Popover>

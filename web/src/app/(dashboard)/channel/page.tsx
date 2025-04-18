@@ -63,23 +63,31 @@ export default async function ChannelProfile() {
             value="public"
             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 w-full"
           >
-            {Array(10)
-              .fill("")
-              .map((_, idx) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <FeedCard key={idx} type="profile" />
-              ))}
+            {userProfile.videos.filter((v) => v.visibility !== "PRIVATE")
+              .length > 0 ? (
+              userProfile.videos
+                .filter((v) => v.visibility !== "PRIVATE")
+                .map((item) => (
+                  <FeedCard key={item.id} type="profile" videoDetails={item} />
+                ))
+            ) : (
+              <h1>No public videos</h1>
+            )}
           </TabsContent>
           <TabsContent
             value="private"
             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 w-full"
           >
-            {Array(10)
-              .fill("")
-              .map((_, idx) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <FeedCard type="private" key={idx} />
-              ))}
+            {userProfile.videos.filter((v) => v.visibility === "PRIVATE")
+              .length > 0 ? (
+              userProfile.videos
+                .filter((v) => v.visibility === "PRIVATE")
+                .map((item) => (
+                  <FeedCard type="private" key={item.id} videoDetails={item} />
+                ))
+            ) : (
+              <h1>No private videos</h1>
+            )}
           </TabsContent>
         </Tabs>
       </div>

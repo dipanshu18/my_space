@@ -37,14 +37,14 @@ const landingLinks: { title: string; link: string }[] = [
 ];
 
 export async function Navbar() {
-  const session = (await cookies()).get("session")?.value;
+  const token = (await cookies()).get("token")?.value;
 
   return (
     <nav className="sticky top-0 z-10 bg-white shadow py-3 w-full">
       <div className="max-w-5xl mx-auto px-8 flex items-center justify-between">
         <Logo />
 
-        {!session && (
+        {!token && (
           <ul className="flex items-center gap-10">
             {landingLinks.map((item, idx) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
@@ -56,7 +56,7 @@ export async function Navbar() {
         )}
 
         <div>
-          {!session ? (
+          {!token ? (
             <Link href={"/register"}>
               <Button>Register</Button>
             </Link>
