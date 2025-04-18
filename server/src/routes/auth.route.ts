@@ -1,15 +1,17 @@
 import { Router } from "express";
 import passport from "passport";
+
+import "../strategies/googleOauth";
+import "../strategies/githubOauth";
 import {
   authWithGithub,
   authWithGoogle,
   logoutHandler,
-  refreshTokenHandler,
 } from "../controllers/auth.controller";
 
 const authRoutes = Router();
 
-authRoutes.post(
+authRoutes.get(
   "/register/google",
   passport.authenticate("google", {
     scope: ["email", "profile"],
@@ -17,7 +19,7 @@ authRoutes.post(
   })
 );
 
-authRoutes.post(
+authRoutes.get(
   "/callback/google",
   passport.authenticate("google", {
     session: false,
@@ -25,12 +27,12 @@ authRoutes.post(
   authWithGoogle
 );
 
-authRoutes.post(
+authRoutes.get(
   "/register/github",
   passport.authenticate("github", { scope: ["user:email"], session: false })
 );
 
-authRoutes.post(
+authRoutes.get(
   "/callback/github",
   passport.authenticate("github", {
     session: false,
@@ -39,7 +41,5 @@ authRoutes.post(
 );
 
 authRoutes.get("/logout", logoutHandler);
-
-authRoutes.get("/refresh", refreshTokenHandler);
 
 export default authRoutes;

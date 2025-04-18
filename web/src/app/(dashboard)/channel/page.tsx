@@ -11,8 +11,12 @@ import { PenBox } from "lucide-react";
 import { EditChannelForm } from "@/components/edit-channel-form";
 import { UserImageNameCard } from "@/components/user-image-name-card";
 import { FeedCard } from "@/components/feed-card";
+import { getUserProfile } from "@/actions/user";
+import type { IUser } from "@/types";
 
-export default function ChannelProfile() {
+export default async function ChannelProfile() {
+  const userProfile = (await getUserProfile()) as IUser;
+
   return (
     <div className="mt-16 lg:mt-0 p-5">
       <div className="flex items-center justify-between">
@@ -35,12 +39,14 @@ export default function ChannelProfile() {
       </div>
 
       <div className="my-5">
-        <UserImageNameCard />
+        <UserImageNameCard user={userProfile} />
+        {/* 
+          User Channel Description
         <p className="my-2">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. In, rem?
           Dolore neque saepe quod magnam dignissimos voluptate impedit, mollitia
           doloremque!
-        </p>
+        </p> */}
       </div>
 
       <div className="w-full my-5">

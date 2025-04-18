@@ -16,7 +16,7 @@ passport.use(
       clientSecret: GITHUB_CLIENT_SECRET,
     },
     // @ts-ignore
-    async (accessToken, refreshToken, profile, done) => {
+    async (_accessToken, _refreshToken, profile, done) => {
       if (!profile.emails || !profile.photos) {
         return done(null, false, {
           message: "Missing email or photo in profile",
