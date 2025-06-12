@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  Bell,
+  // Bell,
   ChartBarIcon,
   LucideHome,
   TvMinimalPlay,
@@ -36,11 +36,11 @@ const homeLinks: {
     title: "Subscriptions",
     link: "/subscriptions",
   },
-  {
-    icon: <Bell />,
-    title: "Notifications",
-    link: "/notifications",
-  },
+  // {
+  //   icon: <Bell />,
+  //   title: "Notifications",
+  //   link: "/notifications",
+  // },
   {
     icon: <User />,
     title: "Channel",

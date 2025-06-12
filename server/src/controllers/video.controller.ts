@@ -13,6 +13,40 @@ import {
   UNPROCESSABLE_CONTENT,
 } from "../constants/httpStatus";
 import { db } from "../utils/db";
+import { redis } from "../utils/redis";
+
+export async function getAllVideos(req: Request, res: Response) {
+  try {
+    const videos = await db.video.findMany({
+      where: {
+        visibility: "PUBLIC",
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        publisher: {
+          omit: {
+            providerId: true,
+            provider: true,
+          },
+        },
+      },
+    });
+
+    if (videos.length < 1) {
+      res.status(NOT_FOUND).json({ msg: "No public videos found" });
+      return;
+    }
+
+    res.status(OK).json({ videos });
+    return;
+  } catch (error) {
+    console.log("ERROR:", error);
+    res.status(INTERNAL_SERVER_ERROR).json({ msg: "Something went wrong" });
+    return;
+  }
+}
 
 export async function createVideoMetadata(req: Request, res: Response) {
   try {
@@ -29,6 +63,7 @@ export async function createVideoMetadata(req: Request, res: Response) {
     });
 
     if (newVideoMetadata) {
+      await redis.set(`video:${newVideoMetadata.id}`, "processing");
       res.status(CREATED).json({ videoId: newVideoMetadata.id });
       return;
     }
@@ -90,8 +125,19 @@ export async function getVideoDetails(req: Request, res: Response) {
             dislikes: true,
           },
         },
+        comment: {
+          include: {
+            user: {
+              omit: {
+                provider: true,
+                providerId: true,
+              },
+            },
+          },
+        },
         publisher: {
           omit: {
+            provider: true,
             providerId: true,
           },
         },
@@ -104,6 +150,40 @@ export async function getVideoDetails(req: Request, res: Response) {
     }
 
     res.status(OK).json({ video });
+    return;
+  } catch (error) {
+    console.log("ERROR:", error);
+    res.status(INTERNAL_SERVER_ERROR).json({ msg: "Something went wrong" });
+    return;
+  }
+}
+
+export async function changeVideoVisibility(req: Request, res: Response) {
+  try {
+    const { videoId } = req.params;
+    const { visibility } = req.body;
+
+    const video = await db.video.findFirst({
+      where: {
+        id: videoId,
+      },
+    });
+
+    if (!video) {
+      res.status(NOT_FOUND).json({ msg: "No video found" });
+      return;
+    }
+
+    await db.video.update({
+      where: {
+        id: videoId,
+      },
+      data: {
+        visibility,
+      },
+    });
+
+    res.status(OK).json({ msg: "Changed video visibility" });
     return;
   } catch (error) {
     console.log("ERROR:", error);

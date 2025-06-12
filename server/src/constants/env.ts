@@ -18,6 +18,7 @@ export const AWS_ACCESS_KEY = getEnv("AWS_ACCESS_KEY");
 export const AWS_SECRET_KEY = getEnv("AWS_SECRET_KEY");
 export const JWT_ACCESS_SECRET = getEnv("JWT_ACCESS_SECRET");
 export const DATABASE_URL = getEnv("DATABASE_URL");
+export const REDIS_URL = getEnv("REDIS_URL");
 export const GOOGLE_CALLBACK_URL = getEnv("GOOGLE_CALLBACK_URL");
 export const GOOGLE_CLIENT_ID = getEnv("GOOGLE_CLIENT_ID");
 export const GOOGLE_CLIENT_SECRET = getEnv("GOOGLE_CLIENT_SECRET");

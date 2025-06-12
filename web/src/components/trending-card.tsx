@@ -14,7 +14,7 @@ export function TrendingCard() {
         className="h-72 lg:h-96 w-full lg:max-w-2xl object-cover"
       />
       <div className="p-5 space-y-2">
-        <UserImageNameCard />
+        {/* <UserImageNameCard /> */}
         <h1 className="text-2xl font-bold">Video Title</h1>
         <p>
           Description: Lorem ipsum dolor sit amet consectetur adipisicing elit.

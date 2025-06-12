@@ -21,6 +21,7 @@
   "dependencies": {
     "@aws-sdk/client-ecs": "^3.787.0",
     "@aws-sdk/client-sqs": "^3.787.0",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "ioredis": "^5.6.1"
   }
 }

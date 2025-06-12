@@ -6,6 +6,10 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const fs = require("node:fs");
 const path = require("node:path");
 
+const Redis = require("ioredis");
+const { exit } = require("node:process");
+const redis = new Redis(process.env.REDIS_URL);
+
 const USER_ID = process.env.USER_ID;
 const VIDEO_ID = process.env.VIDEO_ID;
 const S3_BASE_KEY = `${USER_ID}/${VIDEO_ID}`;
@@ -119,8 +123,14 @@ async function init() {
     await uploadDirectoryToS3(tempDir, S3_BASE_KEY);
 
     console.log("✅ Done!");
+
+    redis.set(`video:${VIDEO_ID}`, "done");
+
+    exit(0);
   } catch (err) {
     console.error("❌ Error:", err);
+
+    exit(1);
   }
 }
 

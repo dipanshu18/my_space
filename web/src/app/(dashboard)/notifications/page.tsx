@@ -14,7 +14,7 @@ export default function Notifications() {
               key={idx}
               className="shadow rounded-md p-5 flex flex-wrap gap-2 items-center"
             >
-              <UserImageNameCard />
+              {/* <UserImageNameCard /> */}
               <p>
                 Some notification message: Lorem ipsum dolor sit amet
                 consectetur adipisicing elit. Assumenda, hic?

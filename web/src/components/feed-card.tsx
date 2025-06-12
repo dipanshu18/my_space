@@ -7,7 +7,11 @@ import {
 } from "@/components/ui/popover";
 import { MoreVertical } from "lucide-react";
 import Link from "next/link";
-import { DeleteVideo, EditVideo } from "./channel-video-action";
+import {
+  ChangeVideoVisibility,
+  DeleteVideo,
+  EditVideo,
+} from "./channel-video-action";
 import type { IVideo } from "@/types";
 
 export function FeedCard({
@@ -28,7 +32,8 @@ export function FeedCard({
         className="aspect-video object-cover"
       />
       <div className="p-5 flex items-center justify-between">
-        {type === "profile" || type === "private" ? (
+        {videoDetails.status !== "PROCESSING" &&
+        (type === "profile" || type === "private") ? (
           <Link
             href={
               type === "private"
@@ -39,19 +44,27 @@ export function FeedCard({
             <h1 className="text-xl font-bold">{videoDetails.title}</h1>
           </Link>
         ) : (
-          <h1 className="text-xl font-bold">{videoDetails.title}</h1>
+          <h1 className="text-xl font-bold">
+            {videoDetails.title}{" "}
+            {videoDetails.status === "PROCESSING" && "(PROCESSING)"}
+          </h1>
         )}
-        {(type === "profile" || type === "private") && (
-          <Popover>
-            <PopoverTrigger>
-              <MoreVertical />
-            </PopoverTrigger>
-            <PopoverContent className="grid gap-2 w-fit">
-              <EditVideo />
-              <DeleteVideo />
-            </PopoverContent>
-          </Popover>
-        )}
+        {videoDetails.status !== "PROCESSING" &&
+          (type === "profile" || type === "private") && (
+            <Popover>
+              <PopoverTrigger>
+                <MoreVertical />
+              </PopoverTrigger>
+              <PopoverContent className="grid gap-2 w-fit">
+                <ChangeVideoVisibility
+                  videoId={videoDetails.id}
+                  visibility={type === "private" ? "PUBLIC" : "PRIVATE"}
+                />
+                <EditVideo videoId={videoDetails.id} />
+                <DeleteVideo videoId={videoDetails.id} />
+              </PopoverContent>
+            </Popover>
+          )}
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ export interface IUser {
   image: string;
   name: string;
   email: string;
-  provider: "GOOGLE" | "GITHUB";
   createdAt: Date;
   updatedAt: Date;
   videos: {
@@ -29,4 +28,20 @@ export interface IVideo {
   status: "UPLOADING" | "PROCESSING" | "PUBLISHED";
   visibility: "PUBLIC" | "PRIVATE";
   publisherId: string;
+  publisher: IUser;
+  comment: IComment[];
+  _count: {
+    likes: number;
+    dislikes: number;
+  };
+}
+
+export interface IComment {
+  id: string;
+  text: string;
+  videoId: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: IUser;
 }

@@ -1,11 +1,8 @@
-FROM ubuntu:focal
+FROM node:22.16-slim
 
 RUN apt-get update && \
   apt-get upgrade -y && \
   apt-get install curl ffmpeg -y
-
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
-RUN apt-get install -y nodejs
 
 WORKDIR /home/app
 

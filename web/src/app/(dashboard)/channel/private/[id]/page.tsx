@@ -1,6 +1,6 @@
 import { getVideoDetails } from "@/actions/video";
-// import { CommentSection } from "@/components/comments";
-// import { Dislike, Like } from "@/components/user-video-action";
+import { CommentSection } from "@/components/comments";
+import { Dislike, Like } from "@/components/user-video-action";
 import { VideoPlayer } from "@/components/video-player";
 import type { IVideo } from "@/types";
 
@@ -27,19 +27,19 @@ export default async function PrivateVideoDetails({
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold">{video.title}</h1>
             <div className="space-x-5">
-              {/* <Like count={video._count.likes} /> */}
-              {/* <Dislike /> */}
+              <Like count={video._count.likes} videoId={video.id} />
+              <Dislike count={video._count.dislikes} videoId={video.id} />
             </div>
           </div>
           <p className="text-base">{video.description}</p>
         </div>
       </div>
 
-      {/* <div className="xl:w-4/5">
+      <div className="xl:w-4/5">
         <h1 className="text-xl font-bold">Comments</h1>
 
-        <CommentSection />
-      </div> */}
+        <CommentSection videoId={video.id} comments={video.comment} />
+      </div>
     </div>
   );
 }
